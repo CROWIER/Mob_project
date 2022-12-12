@@ -103,6 +103,7 @@ const RestaurantInputModal = ({ visible, onClose, onSubmit, restaurant, isEdit }
            <TextInput
             value={rate}
             multiline
+            keyboardType='numeric'
             placeholder='Rate'
             style={[styles.input, styles.fields]}
             onChangeText={text => handleOnChangeText(text, 'rate')}

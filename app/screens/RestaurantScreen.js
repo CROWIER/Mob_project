@@ -2,8 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import {
   View, StyleSheet, StatusBar, TouchableWithoutFeedback, Keyboard, FlatList,
-} 
-from 'react-native';
+} from 'react-native';
+import NotFound from '../components/NotFound'
 import Restaurant from '../components/Restaurant';
 import RestaurantInputModal from '../components/RestaurantInputModal';
 import RoundIconBtn from '../components/RoundIconBtn';
@@ -14,11 +14,11 @@ import Constants from 'expo-constants';
 import uuid from 'react-native-uuid';
 
 
-const RestaurantScreen = ({ user, navigation }) => {
+const RestaurantScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const { restaurants, setRestaurants, findRestaurants } = useRestaurant();
-
+  const [resultNotFound, setResultNotFound] = useState(false);
   const handleOnSubmit = async (name, address, phone, tags, rate ) => {
     const restaurant = { id: uuid.v4(), name, address, phone, tags, rate};
     const updatedRestaurants = [...restaurants, restaurant];
@@ -34,22 +34,25 @@ const RestaurantScreen = ({ user, navigation }) => {
     setSearchQuery(text);
     if (!text.trim()) {
       setSearchQuery('');
-   
-      return await findRestaurants();
+      setResultNotFound(false);
+      return await findRestaurantss();
     }
     const filteredRestaurants = restaurants.filter(restaurant => {
-      if (restaurant.name.toLowerCase().includes(text.toLowerCase())) {
+      if (restaurant.address.toLowerCase().includes(text.toLowerCase()) ||restaurant.tags.toLowerCase().includes(text.toLowerCase())) {
         return restaurant;
       }
     });
 
     if (filteredRestaurants.length) {
       setRestaurants([...filteredRestaurants]);
-    } 
+    } else {
+      setResultNotFound(true);
+    }
   };
 
   const handleOnClear = async () => {
     setSearchQuery('');
+    setResultNotFound(false);
     await findRestaurants();
   };
 
@@ -66,6 +69,9 @@ const RestaurantScreen = ({ user, navigation }) => {
               onClear={handleOnClear}
             />
           ) : null}
+          {resultNotFound ? (
+            <NotFound />
+          ) : (
             <FlatList
               data={restaurants}
               keyExtractor={item => item.id.toString()}
@@ -73,6 +79,7 @@ const RestaurantScreen = ({ user, navigation }) => {
                 <Restaurant onPress={() => openRestaurants(item)} item={item} />
               )}
             />
+            )}
          
 
           

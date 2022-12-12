@@ -1,12 +1,28 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View, Alert } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Alert, Platform, Linking } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
 import colors from '../misc/colors';
 import RoundIconBtn from './RoundIconBtn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRestaurant } from '../contexts/RestaurantProvider';
 import RestaurantsInputModal from './RestaurantInputModal';
+import Icon from 'react-native-ionicons'
 
+const openGoogleMapApp = (addr) => {
+    if (Platform.OS === 'android') {
+        Linking.openURL(`https://www.google.com/maps/place/${addr}`);
+    }else{
+        Linking.openURL(`https://www.google.com/maps/place/${addr}`);
+    }
+};
+
+const navMapApp = (addr) => {
+    if (Platform.OS === 'android') {
+        Linking.openURL(`google.navigation:q=${addr}`);
+    }else{
+        Linking.openURL(`http://maps.apple.com/?daddr=${addr}`)
+    }
+};
 
 const RestaurantDetail = props => {
   const [restaurant, setRestaurant] = useState(props.route.params.restaurant);
@@ -81,9 +97,9 @@ const RestaurantDetail = props => {
         contentContainerStyle={[styles.container, { paddingTop: headerHeight }]}>
         <Text style={styles.name}>{restaurant.name}</Text>
         <Text style={styles.fields}>{restaurant.address}</Text>
-        <Text style={styles.fields}>{restaurant.phone}</Text>
-        <Text style={styles.fields}>{restaurant.tags}</Text>
-        <Text style={styles.fields}>{restaurant.rate}</Text>
+        <Text style={styles.fields}>Phone Number: {restaurant.phone}</Text>
+        <Text style={styles.fields}>Tag: {restaurant.tags}</Text>
+        <Text style={styles.fields}>Rating: {restaurant.rate}</Text>
       </ScrollView>
       <View style={styles.btnContainer}>
         <RoundIconBtn
@@ -92,6 +108,12 @@ const RestaurantDetail = props => {
           onPress={displayDeleteAlert}
         />
         <RoundIconBtn antIconName='edit' onPress={openEditModal} />
+        <RoundIconBtn antIconName='home'
+        style={{ marginTop: 15 }}
+         onPress={() =>openGoogleMapApp(restaurant.address)} />
+         <RoundIconBtn antIconName='right'
+        style={{ marginTop: 15 }}
+         onPress={() =>navMapApp(restaurant.address)} />
       </View>
       <RestaurantsInputModal
         isEdit={isEdit}

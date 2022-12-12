@@ -7,13 +7,14 @@ import {
 import colors from '../misc/colors';
 
 const Restaurant = ({ item, onPress }) => {
-  const { name, address, phone, description, tax } = item;
+  const { name, address, phone, description, tags, rate } = item;
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <Text style={styles.name} numberOfLines={2}>
         {name}
       </Text>
       <Text numberOfLines={3}>{address}</Text>
+      <Text numberOfLines={3}>Rating: {rate}/5</Text>
     </TouchableOpacity>
   );
 };
