@@ -39,7 +39,7 @@ const RestaurantScreen = ({ navigation }) => {
       return await findRestaurantss();
     }
     const filteredRestaurants = restaurants.filter(restaurant => {
-      if (restaurant.address.toLowerCase().includes(text.toLowerCase()) ||restaurant.tags.toLowerCase().includes(text.toLowerCase())) {
+      if (restaurant.name.toLowerCase().includes(text.toLowerCase()) ||restaurant.tags.toLowerCase().includes(text.toLowerCase())) {
         return restaurant;
       }
     });
