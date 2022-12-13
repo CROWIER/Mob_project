@@ -6,7 +6,6 @@ import RoundIconBtn from './RoundIconBtn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRestaurant } from '../contexts/RestaurantProvider';
 import RestaurantsInputModal from './RestaurantInputModal';
-import Icon from 'react-native-ionicons'
 
 const openGoogleMapApp = (addr) => {
     if (Platform.OS === 'android') {
@@ -90,6 +89,7 @@ const RestaurantDetail = props => {
     setIsEdit(true);
     setShowModal(true);
   };
+  let mailBody = ("Name: " + restaurant.name + "\nAddress: " + restaurant.address + "\nPhone number: " + restaurant.phone + "\nRating: " + restaurant.rate).replace(/['"]+/g, '')
 
   return (
     <>
@@ -114,6 +114,7 @@ const RestaurantDetail = props => {
          <RoundIconBtn antIconName='right'
         style={{ marginTop: 15 }}
          onPress={() =>navMapApp(restaurant.address)} />
+        <RoundIconBtn style={{ marginTop: 15 }} antIconName='mail' onPress={() => Linking.openURL('mailto:?subject=Check+this+restaurant!&body=' + mailBody)} title="" />
       </View>
       <RestaurantsInputModal
         isEdit={isEdit}

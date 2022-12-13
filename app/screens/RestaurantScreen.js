@@ -12,6 +12,7 @@ import { useRestaurant } from '../contexts/RestaurantProvider';
 import colors from '../misc/colors';
 import Constants from 'expo-constants';
 import uuid from 'react-native-uuid';
+import AboutScreen from './AboutScreen'
 
 
 const RestaurantScreen = ({ navigation }) => {
@@ -56,6 +57,7 @@ const RestaurantScreen = ({ navigation }) => {
     await findRestaurants();
   };
 
+
   return (
     <>
       <StatusBar barStyle='dark-content' backgroundColor={colors.LIGHT} />
@@ -90,6 +92,7 @@ const RestaurantScreen = ({ navigation }) => {
         antIconName='plus'
         style={styles.addBtn}
       />
+      <RoundIconBtn style={styles.infoBtn} antIconName='info' onPress={() => navigation.navigate(AboutScreen)} />
       <RestaurantInputModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
@@ -112,9 +115,15 @@ const styles = StyleSheet.create({
   addBtn: {
     position: 'absolute',
     right: 15,
-    bottom: 50,
+    bottom: 130,
     zIndex: 1,
   },
+  infoBtn: {
+    position: 'absolute',
+    right: 15,
+    bottom: 50,
+    zIndex: 1,
+  }
 });
 
 export default RestaurantScreen;
