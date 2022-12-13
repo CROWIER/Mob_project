@@ -17,6 +17,7 @@ const RestaurantInputModal = ({ visible, onClose, onSubmit, restaurant, isEdit }
   const [phone, setPhone] = useState('');
   const [tags, setTags] = useState('');
   const [rate, setRate] = useState('');
+  const [description, setDesc] = useState('')
   const handleModalClose = () => {
     Keyboard.dismiss();
   };
@@ -28,6 +29,8 @@ const RestaurantInputModal = ({ visible, onClose, onSubmit, restaurant, isEdit }
       setPhone(restaurant.phone);
       setTags(restaurant.tags);
       setRate(restaurant.rate)
+      setDesc(restaurant.description)
+
     }
   }, [isEdit]);
 
@@ -37,6 +40,7 @@ const RestaurantInputModal = ({ visible, onClose, onSubmit, restaurant, isEdit }
     if (valueFor === 'phone') setPhone(text);
     if (valueFor === 'tags') setTags(text);
     if (valueFor === 'rate') setRate(text);
+    if (valueFor === 'description') setDesc(text);
     
 
   };
@@ -45,14 +49,15 @@ const RestaurantInputModal = ({ visible, onClose, onSubmit, restaurant, isEdit }
     if (!name.trim() && !address.trim()) return onClose();
 
     if (isEdit) {
-      onSubmit(name, address, phone, tags, rate);
+      onSubmit(name, address, phone, tags, rate, description);
     } else {
-      onSubmit(name, address, phone, tags, rate);
+      onSubmit(name, address, phone, tags, rate, description);
       setName('');
       setAddress('');
       setPhone('');
       setTags('');
       setRate('')
+      setDesc('');
     }
     onClose();
   };
@@ -64,6 +69,7 @@ const RestaurantInputModal = ({ visible, onClose, onSubmit, restaurant, isEdit }
       setPhone('');
       setTags('');
       setRate('');
+      setDesc('');
     }
     onClose();
   };
@@ -107,6 +113,13 @@ const RestaurantInputModal = ({ visible, onClose, onSubmit, restaurant, isEdit }
             placeholder='Rate'
             style={[styles.input, styles.fields]}
             onChangeText={text => handleOnChangeText(text, 'rate')}
+          />
+          <TextInput
+            value={description}
+            multiline
+            placeholder='Description'
+            style={[styles.input, styles.fields]}
+            onChangeText={text => handleOnChangeText(text, 'description')}
           />
           <View style={styles.btnContainer}>
             <RoundIconBtn

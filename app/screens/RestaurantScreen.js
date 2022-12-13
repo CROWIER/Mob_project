@@ -20,8 +20,8 @@ const RestaurantScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const { restaurants, setRestaurants, findRestaurants } = useRestaurant();
   const [resultNotFound, setResultNotFound] = useState(false);
-  const handleOnSubmit = async (name, address, phone, tags, rate ) => {
-    const restaurant = { id: uuid.v4(), name, address, phone, tags, rate};
+  const handleOnSubmit = async (name, address, phone, tags, rate, description ) => {
+    const restaurant = { id: uuid.v4(), name, address, phone, tags, rate, description};
     const updatedRestaurants = [...restaurants, restaurant];
     setRestaurants(updatedRestaurants);
     await AsyncStorage.setItem('restaurants', JSON.stringify(updatedRestaurants));

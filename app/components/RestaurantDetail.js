@@ -61,7 +61,7 @@ const RestaurantDetail = props => {
     );
   };
 
-  const handleUpdate = async (name, address, phone, tags, rate) => {
+  const handleUpdate = async (name, address, phone, tags, rate, description) => {
     const result = await AsyncStorage.getItem('restaurants');
     let restaurants = [];
     if (result !== null) restaurants = JSON.parse(result);
@@ -73,6 +73,7 @@ const RestaurantDetail = props => {
         n.phone = phone;
         n.tags = tags;
         n.rate = rate;
+        n.description = description;
         n.isUpdated = true;
 
         setRestaurant(n);
@@ -100,6 +101,7 @@ const RestaurantDetail = props => {
         <Text style={styles.fields}>Phone Number: {restaurant.phone}</Text>
         <Text style={styles.fields}>Tag: {restaurant.tags}</Text>
         <Text style={styles.fields}>Rating: {restaurant.rate}</Text>
+        <Text style={styles.fields}>Description: {restaurant.description}</Text>
       </ScrollView>
       <View style={styles.btnContainer}>
         <RoundIconBtn
